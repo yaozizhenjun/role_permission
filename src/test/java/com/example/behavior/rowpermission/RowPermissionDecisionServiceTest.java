@@ -1,5 +1,13 @@
 package com.example.behavior.rowpermission;
 
+import com.example.behavior.rowpermission.application.RowPermissionAdminApplicationService;
+import com.example.behavior.rowpermission.application.RowPermissionDecisionApplicationService;
+import com.example.behavior.rowpermission.application.dto.RowPermissionDtos;
+import com.example.behavior.rowpermission.domain.model.FilterOperator;
+import com.example.behavior.rowpermission.domain.model.FilterValueType;
+import com.example.behavior.rowpermission.domain.model.ResourceType;
+import com.example.behavior.rowpermission.domain.model.RuleStatus;
+import com.example.behavior.rowpermission.domain.model.SubjectType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class RowPermissionDecisionServiceTest {
     @Autowired
-    private RowPermissionDecisionService decisionService;
+    private RowPermissionDecisionApplicationService decisionService;
 
     @Autowired
-    private RowPermissionAdminService adminService;
+    private RowPermissionAdminApplicationService adminService;
 
     @Test
     void appendsCityFilterWhenDepartmentMatches() {

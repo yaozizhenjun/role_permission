@@ -1,6 +1,6 @@
 # 行权限模块说明
 
-这是一个基于 JDK8 + Spring Boot 2.7 的行权限后端模块骨架，可迁移到现有用户行为分析系统。
+这是一个基于 JDK8 + Spring Boot 2.7 + Maven 3 的行权限后端模块骨架，可迁移到现有用户行为分析系统。
 
 ## 覆盖功能
 
@@ -9,6 +9,8 @@
 - 规则配置：支持权限名称、描述、生效系统、授权对象、过滤规则详情。
 - 分析接入：分析执行前根据依赖资源、分析用户、所属系统判断是否追加过滤条件。
 - 安全兜底：规则命中但用户动态属性缺失时，追加一个永不匹配条件，避免绕过行权限。
+- DDD 分层：`domain` 放聚合和值对象，`application` 放用例服务和 DTO，`infrastructure` 放 JPA 实现，`interfaces` 放 REST 接口。
+- 非 JSON 存储：生效系统、授权对象、过滤表达式分别保存到 `row_permission_rule_system`、`row_permission_rule_subject`、`row_permission_rule_filter`。
 
 ## 关键接口
 
@@ -30,7 +32,7 @@ AnalysisPreviewResponse result = rowPermissionDecisionService.apply(request);
 List<FilterConditionDto> finalFilters = result.finalFilters;
 ```
 
-真实项目中通常只需要迁移 `RowPermissionDecisionService`，并把 `FilterConditionDto` 转换成现有查询引擎的过滤表达式。
+真实项目中通常只需要迁移 `RowPermissionDecisionApplicationService`，并把 `FilterConditionDto` 转换成现有查询引擎的过滤表达式。
 
 ## 示例规则
 
@@ -66,3 +68,11 @@ mvn spring-boot:run
 ```
 
 默认使用 H2 内存库，启动后会加载 `schema.sql` 和 `data.sql`。
+
+## Maven 3 编译
+
+```bash
+mvn test
+```
+
+`pom.xml` 使用 `maven-enforcer-plugin` 约束 Maven 版本为 `3.6.3 <= Maven < 4.0.0`，Java 版本为 JDK8。
